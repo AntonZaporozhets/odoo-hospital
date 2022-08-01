@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_patient_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.patient.tree ()</field>
+        <field name="model">hr.hosp.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="sex"/>
+                <field name="birthday"/>
+                <field name="insurance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_patient_form" model="ir.ui.view">
+        <field name="name">hr.hosp.patient.form ()</field>
+        <field name="model">hr.hosp.patient</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sex"/>
+                        <field name="birthday"/>
+                        <field name="insurance"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_patient_act_window" model="ir.actions.act_window">
+        <field name="name">Пацієнт</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.patient</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_hosp_patient_menu"
+              action="hr_hosp_patient_act_window"
+              parent="hr_hosp_catalog_menu"
+              name="Пацієнт" sequence="200"/>
+</odoo>

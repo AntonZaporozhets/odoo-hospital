@@ -1,0 +1,25 @@
+{
+    'name': 'Hospital',
+    'version': '15.0.1.0.0',
+    'summary': '',
+    'category': 'Customizations',
+    'author': 'Anton Zaporozhets',
+    'website': '',
+    'license': 'OPL-1',
+    'depends': [],
+    'external_dependencies': {'python': [], },
+    'data': [
+        'security/ir.model.access.csv',
+        'views/hr_hospital_menus.xml',
+        'views/patient_view.xml',
+        'views/card_view.xml',
+        'views/doctor_view.xml',
+        'views/diagnosis_view.xml',
+    ],
+    'demo': [
+    ],
+    'installable': True,
+    'auto_install': False,
+    'price': 0,
+    'currency': 'UAH',
+}

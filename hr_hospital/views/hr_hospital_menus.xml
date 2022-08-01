@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <menuitem id="hr_hosp_main_menu"
+            name="Лікарня" sequence="300"/>
+
+  <menuitem id="hr_hosp_catalog_menu"
+            parent="hr_hosp_main_menu"
+            name="Каталог" sequence="100"/>
+
+  <menuitem id="hr_hosp_settings_main_menu"
+            parent="hr_hosp_main_menu"
+            name="Налаштування" sequence="9999"/>
+
+</odoo>
