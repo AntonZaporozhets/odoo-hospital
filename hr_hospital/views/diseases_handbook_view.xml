@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_diseases_handbook_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook.tree ()</field>
+        <field name="model">hr.hosp.diseases_handbook</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="disease_id" widget="many2one_tags"/>
+                <field name="medtest_protocol_ids" widget="many2many_tags"/>
+                <field name="duration"/>
+                <field name="specialization_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_diseases_handbook_form" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook.form ()</field>
+        <field name="model">hr.hosp.diseases_handbook</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="disease_id" widget="many2one_tags"/>
+                        <field name="medtest_protocol_ids"/>
+                        <field name="duration"/>
+                        <field name="specialization_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_diseases_handbook_category_search_view" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook_category.search</field>
+        <field name="model">hr.hosp.diseases_handbook_category</field>
+        <field name="arch" type="xml">
+            <search string="Категорії хвороб">
+                <field name="name" string="Категорії хвороб"/>
+                <field name="parent_id"/>
+            </search>
+        </field>
+    </record>
+    <record id="hr_hosp_diseases_handbook_category_form_view" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook_category.form</field>
+        <field name="model">hr.hosp.diseases_handbook_category</field>
+        <field name="arch" type="xml">
+            <form class="oe_form_configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Категорія"/>
+                        <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                    </div>
+                    <group name="first" col="2">
+                        <field name="parent_id" class="oe_inline"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="hr_hosp_diseases_handbook_category_list_view" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook_category.list</field>
+        <field name="model">hr.hosp.diseases_handbook_category</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Категорії хвороб">
+                <field name="display_name" string="Категорії хвороб"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_hosp_diseases_handbook_category_action_form" model="ir.actions.act_window">
+        <field name="name">Категорії хвороб</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.diseases_handbook_category</field>
+        <field name="search_view_id" ref="hr_hosp_diseases_handbook_category_search_view"/>
+        <field name="view_id" ref="hr_hosp_diseases_handbook_category_list_view"/>
+    </record>
+
+    <record id="hr_hosp_diseases_handbook_act_window" model="ir.actions.act_window">
+        <field name="name">Довідник хвороб</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.diseases_handbook</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_hosp_diseases_handbook_menu"
+              action="hr_hosp_diseases_handbook_act_window"
+              parent="hr_hosp_for_admin_menu"
+              name="Довідник хвороб" sequence="300"/>
+</odoo>

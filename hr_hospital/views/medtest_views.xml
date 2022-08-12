@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_medtest_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.medtest.tree ()</field>
+        <field name="model">hr.hosp.medtest</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="issue_date"/>
+                <field name="name"/>
+                <field name="doctor"/>
+                <field name="medtest"/>
+                <field name="medtest_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_medtest_form" model="ir.ui.view">
+        <field name="name">hr.hosp.medtest.form ()</field>
+        <field name="model">hr.hosp.medtest</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="issue_date"/>
+                        <field name="name"/>
+                        <field name="doctor"/>
+                        <field name="medtest"/>
+                        <field name="medtest_date"/>
+                        <field name="conclusion"/>
+                        <field name="material"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_medtest_act_window" model="ir.actions.act_window">
+        <field name="name">Обстеження</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.medtest</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_hosp_medtest_menu"
+              action="hr_hosp_medtest_act_window"
+              parent="hr_hosp_for_doctor_menu"
+              name="Обстеження" sequence="300"/>
+</odoo>

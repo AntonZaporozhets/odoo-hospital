@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_disease_report_wizard_form" model="ir.ui.view">
+        <field name="name">hr.hosp.disease_report_wizard.form ()</field>
+        <field name="model">hr.hosp.disease_report_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Звіт щодо захворюваності">
+                <group>
+                    <field name="date"/>
+                    <p>* вкажіть будь-яку дату звітного місяця</p>
+                </group>
+                <footer>
+                    <button name="action_print_disease_report" string="Друк" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Закрити" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_disease_report_wizard_act_window" model="ir.actions.act_window">
+        <field name="name">Звіт щодо захворюваності</field>
+        <field name="res_model">hr.hosp.disease_report_wizard</field>
+        <field name="view_id" ref="hr_hosp_disease_report_wizard_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_hosp_doctor"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <menuitem id="hr_disease_report_menu"
+          action="hr_hosp_disease_report_wizard_act_window"
+          parent="hr_hosp_report_menu"
+          name="Звіт по хворобам" sequence="100"/>
+</odoo>

@@ -4,9 +4,21 @@
   <menuitem id="hr_hosp_main_menu"
             name="Лікарня" sequence="300"/>
 
-  <menuitem id="hr_hosp_catalog_menu"
+  <menuitem id="hr_hosp_for_registry_menu"
             parent="hr_hosp_main_menu"
-            name="Каталог" sequence="100"/>
+            name="Реєстратурі" sequence="100"/>
+
+  <menuitem id="hr_hosp_for_doctor_menu"
+            parent="hr_hosp_main_menu"
+            name="Лікарю" sequence="200"/>
+
+  <menuitem id="hr_hosp_for_admin_menu"
+            parent="hr_hosp_main_menu"
+            name="Адміністрації" sequence="300"/>
+
+  <menuitem id="hr_hosp_report_menu"
+            parent="hr_hosp_main_menu"
+            name="Звітність" sequence="400"/>
 
   <menuitem id="hr_hosp_settings_main_menu"
             parent="hr_hosp_main_menu"

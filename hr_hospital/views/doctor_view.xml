@@ -6,8 +6,12 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="specialization"/>
-                <field name="experience"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="sex"/>
+                <field name="specialization_ids" widget="many2many_tags"/>
+                <field name="is_intern"/>
+                <field name="mentor_id" widget="many2one_tags"/>
             </tree>
         </field>
     </record>
@@ -21,8 +25,13 @@
                 <sheet>
                     <group>
                         <field name="name"/>
-                        <field name="specialization"/>
-                        <field name="experience"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="photo" widget="image"/>
+                        <field name="sex"/>
+                        <field name="specialization_ids" widget="many2many_tags"/>
+                        <field name="is_intern"/>
+                        <field name="mentor_id" widget="many2one_tags" attrs="{'readonly':[('is_intern','=',False)], 'required':[('is_intern','=',True)]}"/>
                     </group>
                 </sheet>
             </form>
@@ -38,6 +47,6 @@
 
     <menuitem id="hr_hosp_doctor_menu"
               action="hr_hosp_doctor_act_window"
-              parent="hr_hosp_catalog_menu"
-              name="Лікар" sequence="400"/>
+              parent="hr_hosp_for_admin_menu"
+              name="Лікар" sequence="100"/>
 </odoo>

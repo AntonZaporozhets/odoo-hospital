@@ -5,10 +5,18 @@
         <field name="model">hr.hosp.patient</field>
         <field name="arch" type="xml">
             <tree>
+                <header>
+                    <button type="object" name="hr_hosp_change_personal_doctor_multi_wizard_act_window" string="Змінити персонального лікаря"/>
+                </header>
                 <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
                 <field name="sex"/>
                 <field name="birthday"/>
-                <field name="insurance"/>
+                <field name="age"/>
+                <field name="passport"/>
+                <field name="contact_person_id" widget="many2one_tags"/>
+                <field name="person_doctor_id" widget="many2one_tags"/>
             </tree>
         </field>
     </record>
@@ -22,9 +30,15 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="photo" widget="image"/>
                         <field name="sex"/>
                         <field name="birthday"/>
-                        <field name="insurance"/>
+                        <field name="age"/>
+                        <field name="passport"/>
+                        <field name="contact_person_id" widget="many2one_tags"/>
+                        <field name="person_doctor_id" widget="many2one_tags"/>
                     </group>
                 </sheet>
             </form>
@@ -40,6 +54,7 @@
 
     <menuitem id="hr_hosp_patient_menu"
               action="hr_hosp_patient_act_window"
-              parent="hr_hosp_catalog_menu"
+              parent="hr_hosp_for_registry_menu"
               name="Пацієнт" sequence="200"/>
+
 </odoo>

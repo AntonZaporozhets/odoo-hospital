@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_diagnosis_history_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.diagnosis_history.tree ()</field>
+        <field name="model">hr.hosp.diagnosis_history</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient"/>
+                <field name="doctor"/>
+                <field name="diagnosis"/>
+                <field name="disease"/>
+                <field name="confirmation_date"/>
+                <field name="withdrawal_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_diagnosis_history_act_window" model="ir.actions.act_window">
+        <field name="name">Історія діагнозів</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.diagnosis_history</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="hr_hosp_diagnosis_history_menu"
+              action="hr_hosp_diagnosis_history_act_window"
+              parent="hr_hosp_for_doctor_menu"
+              name="Історія діагнозів" sequence="200"/>
+</odoo>

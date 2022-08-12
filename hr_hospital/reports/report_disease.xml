@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_disease">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/><br/><br/>
+                    <div class="oe_structure"/>
+                    <div class="text_center">
+                        <h2>Звіт щодо захворюваності (за місяцями)</h2>
+                    </div>
+                    <br/>
+                    <div>
+                        <h5><b>Хвороби</b></h5>
+                        <ul style="line-height: 5px;">
+                            <h5><b>Діагнози</b></h5>
+                        </ul>
+                        <hr/>
+                        <div t-foreach="diseases" t-as="t">
+                            <h5><t t-esc="t['disease']"></t>&#xA0;&#xA0;-&#xA0;&#xA0;<t t-esc="t['count']"></t></h5>
+                            <ul t-foreach="t['diagnosis']" t-as="td" style="line-height: 5px;">
+                                <h5 t-esc="td"></h5>
+                            </ul>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

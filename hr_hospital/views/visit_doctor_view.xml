@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_hosp_visit_doctor_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.visit_doctor.tree ()</field>
+        <field name="model">hr.hosp.visit_doctor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reception_datetime"/>
+                <field name="doctor_id" widget="many2one_tags"/>
+                <field name="patient_id" widget="many2one_tags"/>
+                <field name="disease_id"/>
+                <field name="diagnosis_id" widget="many2one_tags"/>
+                <field name="specialist_consultation_ids" widget="many2many_tags"/>
+                <field name="diagnosis_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_visit_doctor_form" model="ir.ui.view">
+        <field name="name">hr.hosp.visit_doctor.form ()</field>
+        <field name="model">hr.hosp.visit_doctor</field>
+        <field name="arch" type="xml">
+            <form>
+                <header></header>
+                <sheet>
+                    <group>
+                        <field name="reception_datetime"/>
+                        <field name="doctor_id" widget="many2one_tags"/>
+                        <field name="patient_id" widget="many2one_tags"/>
+                        <field name="initial_visit_id" widget="many2one_tags"/>
+                        <field name="complaint"/>
+                        <field name="anamnesis"/>
+                        <field name="external_inspection"/>
+                        <field name="doctor_specialization_ids" invisible="1"/>
+                        <field name="disease_id"/>
+                        <field name="diagnosis_id" widget="many2one_tags"/>
+                        <field name="clarification_diagnosis"/>
+                        <field name="medtest_ids" widget="many2many_tags"/>
+                        <field name="specialist_consultation_ids" widget="many2many_tags"/>
+                        <field name="prescribed_treatment"/>
+                        <field name="diagnosis_status" widget="radio"/>
+                        <field name="is_intern" invisible="1"/>
+                        <field name="mentor_comment" attrs="{'readonly':[('is_intern','=',False)], 'required':[('is_intern','=',True)]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_visit_doctor_act_window" model="ir.actions.act_window">
+        <field name="name">Відвідування лікаря</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.visit_doctor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hr_hosp_visit_doctor_menu"
+              action="hr_hosp_visit_doctor_act_window"
+              parent="hr_hosp_for_doctor_menu"
+              name="Відвідування лікаря" sequence="100"/>
+</odoo>
