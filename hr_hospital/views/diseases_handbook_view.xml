@@ -33,6 +33,20 @@
         </field>
     </record>
 
+    <record id="hr_hosp_diseases_handbook_action_search" model="ir.ui.view">
+        <field name="name">hr.hosp.diseases_handbook.search()</field>
+        <field name="model">hr.hosp.diseases_handbook</field>
+        <field name="arch" type="xml">
+            <search>
+                <searchpanel view_types="tree">
+                    <field name="disease_id" icon="fa-male" color="green" hierarchize="1" enable_counters="1"/>
+                </searchpanel>
+                <filter name="groupby_disease" string="За типом хвороб" context="{'group_by': 'disease_id'}"/>
+                <filter name="groupby_specialization" string="За спеціалізацією лікаря" context="{'group_by': 'specialization_ids'}"/>
+            </search>
+        </field>
+    </record>
+
     <record id="hr_hosp_diseases_handbook_category_search_view" model="ir.ui.view">
         <field name="name">hr.hosp.diseases_handbook_category.search</field>
         <field name="model">hr.hosp.diseases_handbook_category</field>
@@ -51,7 +65,7 @@
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Категорія"/>
-                        <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                        <h1><field name="name"/></h1>
                     </div>
                     <group name="first" col="2">
                         <field name="parent_id" class="oe_inline"/>
@@ -82,7 +96,7 @@
         <field name="name">Довідник хвороб</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hosp.diseases_handbook</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
     </record>
 
     <menuitem id="hr_hosp_diseases_handbook_menu"

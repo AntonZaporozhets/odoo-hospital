@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="hr_hosp_doctors_appointment_for_doctor_act_window" model="ir.actions.act_window">
+        <field name="name">Запис пацієнта до лікаря</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.doctors_appointment</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_doctor_id': active_id}</field>
+    </record>
+
     <record id="hr_hosp_doctor_tree" model="ir.ui.view">
         <field name="name">hr.hosp.doctor.tree ()</field>
         <field name="model">hr.hosp.doctor</field>
@@ -16,6 +24,52 @@
         </field>
     </record>
 
+    <record id="hr_hosp_doctor_kanban" model="ir.ui.view">
+        <field name="name">hr.hosp.doctor.kanban ()</field>
+        <field name="model">hr.hosp.doctor</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="specialization_ids" on_create="quick_create"  quick_create_view="project.quick_create_task_form" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="sex"/>
+                <field name="specialization_ids" widget="many2many_tags"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div  class="o_kanban_image">
+                                <img alt="Intern image" t-att-src="kanban_image('hr.hosp.doctor', 'photo', record.id.raw_value)"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <h5>
+                                    <field name="name"/>
+                                </h5>
+                                <div class="o_kanban_tags_section"/>
+                                <ul>
+                                    <li>
+                                        <field name="phone"/>
+                                    </li>
+                                    <li t-if="record.email.raw_value" class="o_text_overflow">
+                                        <field name="email"/>
+                                    </li>
+                                    <li>
+                                        <field name="sex"/>
+                                    </li>
+                                    <li>
+                                        <field name="specialization_ids" widget="many2many_tags"/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-secondary" type="action" style="float: right; background-color: #E2D7C7;"
+                                    name="%(hr_hosp_doctors_appointment_for_doctor_act_window)d">Запис на прийом</button>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="hr_hosp_doctor_form" model="ir.ui.view">
         <field name="name">hr.hosp.doctor.form ()</field>
         <field name="model">hr.hosp.doctor</field>
@@ -23,18 +77,114 @@
             <form>
                 <header></header>
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="phone"/>
-                        <field name="email"/>
-                        <field name="photo" widget="image"/>
-                        <field name="sex"/>
-                        <field name="specialization_ids" widget="many2many_tags"/>
-                        <field name="is_intern"/>
-                        <field name="mentor_id" widget="many2one_tags" attrs="{'readonly':[('is_intern','=',False)], 'required':[('is_intern','=',True)]}"/>
+                    <field name="is_mentor" invisible="1"/>
+                    <group col="4">
+                        <div colspan="3">
+                            <h2>
+                                <field name="name" placeholder="Введіть ПІБ лікаря"/>
+                            </h2>
+                            <field name="specialization_ids" placeholder="Оберіть спеціалізацію" widget="many2many_tags"/>
+                            <separator/>
+                            <group col="2">
+                                <group>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </group>
+                                <group>
+                                    <field name="sex"/>
+                                    <field name="is_intern"/>
+                                    <field name="mentor_id" widget="many2one_tags" attrs="{'readonly':[('is_intern','=',False)], 'required':[('is_intern','=',True)]}"/>
+                                </group>
+                            </group>
+                        </div>
+                        <field name="photo" widget="image" nolabel="1" class="oe_avatar"
+                               options='{"size": [150,0]}'/>
                     </group>
+                    <separator/>
+                    <div attrs="{'invisible':[('is_mentor','=',False)]}">
+                        <hr/>
+                        <separator/>
+                        <h3>Відомості про інтернів</h3>
+                        <separator/>
+                        <field name="mentor_ids">
+                            <kanban>
+                                <field name="id"/>
+                                <field name="name"/>
+                                <field name="phone"/>
+                                <field name="email"/>
+                                <field name="sex"/>
+                                <field name="specialization_ids" widget="many2many_tags"/>
+                                <field name="photo"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-att-class="oe_kanban_global_click">
+                                            <div  class="o_kanban_image">
+                                                <img alt="Intern image" t-att-src="kanban_image('hr.hosp.doctor', 'photo', record.id.raw_value)"/>
+                                            </div>
+                                            <div class="oe_kanban_details">
+                                                <h5>
+                                                    <field name="name"/>
+                                                </h5>
+                                                <div class="o_kanban_tags_section"/>
+                                                <ul>
+                                                    <li>
+                                                        <field name="phone"/>
+                                                    </li>
+                                                    <li t-if="record.email.raw_value" class="o_text_overflow">
+                                                        <field name="email"/>
+                                                    </li>
+                                                    <li>
+                                                        <field name="sex"/>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <hr/>
+                                            <field name="specialization_ids" widget="many2many_tags"/>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </div>
+                    <div attrs="{'invisible':[('is_intern','=',False)]}">
+                        <hr/>
+                        <separator/>
+                        <h3>Відомості про ментора</h3>
+                        <group col="4">
+                            <div colspan="3">
+                                <h5>
+                                    <field name="mentor_name"/>
+                                </h5>
+                                <field name="mentor_specialization_ids" widget="many2many_tags"/>
+                                <separator/>
+                                <group col="6">
+                                    <group>
+                                        <field name="mentor_phone"/>
+                                        <field name="mentor_email"/>
+                                        <field name="mentor_sex"/>
+                                    </group>
+                                    <group>
+                                        <field name="mentor_photo" widget="image" nolabel="1" class="oe_avatar"
+                                                    options='{"size": [100,0]}'/>
+                                    </group>
+                                </group>
+                            </div>
+                        </group>
+                    </div>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_doctor_action_search" model="ir.ui.view">
+        <field name="name">hr.hosp.doctor.search()</field>
+        <field name="model">hr.hosp.doctor</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="intern_filter" string="Інтерни" domain="[('is_intern','=',True)]"/>
+                <filter name="mentor_filter" string="Ментори" domain="[('is_mentor','=',True)]"/>
+                <filter name="personal_doctor_filter" string="Не сімейні лікарі" domain="[('is_person_doctor','=',False)]"/>
+            </search>
         </field>
     </record>
 
@@ -42,7 +192,7 @@
         <field name="name">Лікар</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hosp.doctor</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form,search</field>
     </record>
 
     <menuitem id="hr_hosp_doctor_menu"

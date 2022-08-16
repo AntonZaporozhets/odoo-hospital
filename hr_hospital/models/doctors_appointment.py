@@ -15,6 +15,12 @@ class DoctorsAppointment(models.Model):
         required=True,
     )
 
+    name = fields.Many2one(
+        string='Пацієнт',
+        comodel_name='hr.hosp.patient',
+        required=True,
+    )
+
     doctor_id = fields.Many2one(
         string='Лікар',
         comodel_name='hr.hosp.doctor',
@@ -24,12 +30,6 @@ class DoctorsAppointment(models.Model):
     doctor_specialization_ids = fields.Many2many(
         related='doctor_id.specialization_ids',
         readonly=True,
-    )
-
-    name = fields.Many2one(
-        string='Пацієнт',
-        comodel_name='hr.hosp.patient',
-        required=True,
     )
 
     active = fields.Boolean(

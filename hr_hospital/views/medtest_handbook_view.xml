@@ -47,7 +47,7 @@
                 <sheet>
                     <div class="oe_title">
                         <label for="name" string="Вид"/>
-                        <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                        <h1><field name="name"/></h1>
                     </div>
                     <group name="first" col="2">
                         <field name="parent_id" class="oe_inline"/>

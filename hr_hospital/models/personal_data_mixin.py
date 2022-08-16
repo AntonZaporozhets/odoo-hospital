@@ -17,7 +17,7 @@ class AddressMixin(models.AbstractModel):
     )
 
     phone = fields.Char(
-        string='Контактний телефон',
+        string='Телефон',
         help='Введіть контактний телефон',
         required=True,
     )

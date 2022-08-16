@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="hr_hosp_doctors_appointment_for_patient_act_window" model="ir.actions.act_window">
+        <field name="name">Запис пацієнта до лікаря</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.doctors_appointment</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_name': active_id}</field>
+    </record>
+
+    <record id="hr_hosp_visit_doctor_history_act_window" model="ir.actions.act_window">
+        <field name="name">Історія відвідування лікаря</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.visit_doctor</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_patient_card_id': active_id,
+                               'tree_view_ref': 'hr_hospital.hr_hosp_visit_doctor_tree'}</field>
+    </record>
+
+    <record id="hr_hosp_medtest_history_act_window" model="ir.actions.act_window">
+        <field name="name">Історія обстежень</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.medtest</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_name': active_id}</field>
+    </record>
+
+    <record id="hr_hosp_prescription_history_tree" model="ir.ui.view">
+        <field name="name">hr.hosp.prescription_history.tree ()</field>
+        <field name="model">hr.hosp.visit_doctor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reception_datetime"/>
+                <field name="doctor_id" widget="many2one_tags"/>
+                <field name="diagnosis_id" widget="many2one_tags"/>
+                <field name="medtest_ids" widget="many2many_tags"/>
+                <field name="specialist_consultation_ids" widget="many2many_tags"/>
+                <field name="prescribed_treatment"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_hosp_prescription_history_act_window" model="ir.actions.act_window">
+        <field name="name">Історія призначень</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.hosp.visit_doctor</field>
+        <field name="view_id" ref="hr_hosp_prescription_history_tree"/>
+        <field name="view_mode">tree</field>
+        <field name="context">{'search_default_patient_card_id': active_id}</field>
+    </record>
+
+
     <record id="hr_hosp_patient_tree" model="ir.ui.view">
         <field name="name">hr.hosp.patient.tree ()</field>
         <field name="model">hr.hosp.patient</field>
         <field name="arch" type="xml">
             <tree>
                 <header>
-                    <button type="object" name="hr_hosp_change_personal_doctor_multi_wizard_act_window" string="Змінити персонального лікаря"/>
+                    <button type="object" name="hr_hosp_change_personal_doctor_multi_wizard_act_window"
+                            string="Змінити персонального лікаря"/>
                 </header>
                 <field name="name"/>
                 <field name="phone"/>
@@ -28,18 +78,82 @@
             <form>
                 <header></header>
                 <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="phone"/>
-                        <field name="email"/>
-                        <field name="photo" widget="image"/>
-                        <field name="sex"/>
-                        <field name="birthday"/>
-                        <field name="age"/>
-                        <field name="passport"/>
-                        <field name="contact_person_id" widget="many2one_tags"/>
-                        <field name="person_doctor_id" widget="many2one_tags"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" style="float: left;" type="action"
+                                name="%(hr_hosp_doctors_appointment_for_patient_act_window)d" icon="fa-pencil-square-o">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Запис</span>
+                                <span class="o_stat_text">до лікаря</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="action" name="%(hr_hosp_visit_doctor_history_act_window)d"
+                                icon="fa-stethoscope">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Історія</span>
+                                <span class="o_stat_text">відвідувань</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="action" name="%(hr_hosp_medtest_history_act_window)d"
+                                icon="fa-flask">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Історія</span>
+                                <span class="o_stat_text">обстежень</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="action" name="%(hr_hosp_prescription_history_act_window)d"
+                                icon="fa-user-md">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Історія</span>
+                                <span class="o_stat_text">призначень</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group col="4">
+                        <div colspan="3">
+                            <h2>
+                                <field name="name" placeholder="Введіть ПІБ пацієнта"/>
+                            </h2>
+                            <separator/>
+                            <group col="3">
+                                <group colspan="2">
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="contact_person_id" widget="many2one_tags"/>
+                                    <field name="person_doctor_id" widget="many2one_tags"/>
+                                </group>
+                                <group>
+                                    <field name="sex"/>
+                                    <field name="birthday"/>
+                                    <field name="age"/>
+                                    <field name="passport"/>
+                                </group>
+                            </group>
+                        </div>
+                        <field name="photo" widget="image" nolabel="1" class="oe_avatar"
+                               options='{"size": [150,0]}'/>
                     </group>
+                    <separator/>
+                    <notebook>
+                        <page string="Історія хвороб">
+                            <field name="diagnosis_history_ids">
+                                <tree create="false" delete="false">
+                                    <field name="doctor"/>
+                                    <field name="diagnosis"/>
+                                    <field name="disease"/>
+                                    <field name="confirmation_date"/>
+                                    <field name="withdrawal_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Історія призначення сімейного лікаря">
+                            <field name="person_doctor_history_ids">
+                                <tree create="false" delete="false">
+                                    <field name="doctor"/>
+                                    <field name="appointment_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

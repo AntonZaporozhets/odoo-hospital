@@ -8,11 +8,25 @@
                 <field name="issue_date"/>
                 <field name="name"/>
                 <field name="doctor"/>
-                <field name="medtest"/>
+                <field name="medtest_id"/>
                 <field name="medtest_date"/>
             </tree>
         </field>
     </record>
+
+    <record id="hr_hosp_medtest_pivot" model="ir.ui.view">
+        <field name="name">hr.hosp.medtest.pivot ()</field>
+        <field name="model">hr.hosp.medtest</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="doctor" type="row"/>
+                <field name="name" type="row"/>
+                <field name="issue_date" type="row" interval="month"/>
+                <field name="medtest_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
 
     <record id="hr_hosp_medtest_form" model="ir.ui.view">
         <field name="name">hr.hosp.medtest.form ()</field>
@@ -21,17 +35,71 @@
             <form>
                 <header></header>
                 <sheet>
-                    <group>
-                        <field name="issue_date"/>
-                        <field name="name"/>
-                        <field name="doctor"/>
-                        <field name="medtest"/>
-                        <field name="medtest_date"/>
-                        <field name="conclusion"/>
-                        <field name="material"/>
+                    <h2>
+                        <field name="name" placeholder="Введіть ПІБ пацієнта"/>
+                    </h2>
+                    <separator/>
+                    <group col="3">
+                        <group>
+                            <field name="issue_date"/>
+                            <field name="doctor"/>
+                            <field name="medtest_id"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="medtest_date"/>
+                            <field name="material"/>
+                            <field name="conclusion"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="hr_hosp_medtest_kanban" model="ir.ui.view">
+        <field name="name">hr.hosp.medtest.kanban ()</field>
+        <field name="model">hr.hosp.medtest</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="name" group_create="false" quick_create="false">
+                <field name="medtest_id"/>
+                <field name="medtest_date"/>
+                <field name="conclusion"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <p>
+                                    <b><field name="medtest_date"/></b>
+                                    <field name="medtest_id"/>
+                                </p>
+                                <div class="o_kanban_tags_section"/>
+                                <ul>
+                                    <li>
+                                       <field name="conclusion"/>
+                                    </li>
+                                </ul>
+<!--                                <p t-if="medtest_date == False">-->
+<!--                                    Призначено:-->
+<!--                                    <field name="issue_date"/>-->
+<!--                                    <field name="doctor"/>-->
+<!--                                </p>-->
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="hr_hosp_medtest_search" model="ir.ui.view">
+        <field name="name">hr.hosp.medtest.search()</field>
+        <field name="model">hr.hosp.medtest</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+                <field name="patient_phone" filter_domain="[('patient_phone','ilike',self)]"/>
+                <filter name="groupby_medtest" string="За типом обстежень" context="{'group_by': 'medtest_id'}"/>
+            </search>
         </field>
     </record>
 
@@ -39,7 +107,7 @@
         <field name="name">Обстеження</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hosp.medtest</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban,pivot,search</field>
     </record>
 
     <menuitem id="hr_hosp_medtest_menu"

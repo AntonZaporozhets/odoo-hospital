@@ -5,7 +5,7 @@
         <field name="model">hr.hosp.diagnosis_history</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="patient"/>
+                <field name="patient_id"/>
                 <field name="doctor"/>
                 <field name="diagnosis"/>
                 <field name="disease"/>
@@ -15,11 +15,39 @@
         </field>
     </record>
 
+    <record id="hr_hosp_diagnosis_history_pivot" model="ir.ui.view">
+        <field name="name">hr.hosp.diagnosis_history.pivot ()</field>
+        <field name="model">hr.hosp.diagnosis_history</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="create_date" interval="month"/>
+                <field name="disease" type="row"/>
+                <field name="diagnosis" type="row"/>
+<!--                <field name="doctor" type="row"/>-->
+<!--                <field name="patient_id" type="row"/>-->
+<!--                <field name="confirmation_date" type="row"/>-->
+                <field name="confirmation_date" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_hosp_diagnosis_history_graph" model="ir.ui.view">
+        <field name="name">hr.hosp.diagnosis_history.graph ()</field>
+        <field name="model">hr.hosp.diagnosis_history</field>
+        <field name="arch" type="xml">
+            <graph type="bar" stacked="0">
+                <field name="confirmation_date" interval="month"/>
+                <field name="diagnosis"/>
+            </graph>
+        </field>
+    </record>
+
+
     <record id="hr_hosp_diagnosis_history_act_window" model="ir.actions.act_window">
         <field name="name">Історія діагнозів</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hosp.diagnosis_history</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,pivot,graph</field>
     </record>
 
     <menuitem id="hr_hosp_diagnosis_history_menu"

@@ -12,12 +12,13 @@ class DiagnosisHistory(models.Model):
 
     name = fields.Char()
 
-    patient = fields.Char(
+    patient_id = fields.Many2one(
         string='Пацієнт',
+        comodel_name='hr.hosp.patient',
     )
 
     doctor = fields.Char(
-        string='Сімейний лікар',
+        string='Лікар',
     )
 
     diagnosis = fields.Char(

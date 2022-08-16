@@ -39,7 +39,18 @@ class Patient(models.Model):
         string='Сімейний лікар',
         help='Оберіть сімейного лікаря',
         comodel_name='hr.hosp.doctor',
+        domain="[('is_person_doctor', '=', True)]",
         required=True,
+    )
+
+    person_doctor_history_ids = fields.One2many(
+        comodel_name='hr.hosp.personal_doctor_history',
+        inverse_name='name',
+    )
+
+    diagnosis_history_ids = fields.One2many(
+        comodel_name='hr.hosp.diagnosis_history',
+        inverse_name='patient_id',
     )
 
     active = fields.Boolean(
@@ -56,7 +67,7 @@ class Patient(models.Model):
         rec = super().create(vals)
         if 'person_doctor_id' in vals:
             values = {
-                'name': rec.name,
+                'name': rec.id,
                 'doctor': self.env['hr.hosp.doctor'].browse(vals.get('person_doctor_id')).name,
                 'appointment_date': fields.Date.today(),
             }
@@ -69,7 +80,7 @@ class Patient(models.Model):
         for rec in self:
             if rec.person_doctor_id.id != vals.get('person_doctor_id'):
                 values = {
-                    'name': rec.name,
+                    'name': rec.id,
                     'doctor': self.env['hr.hosp.doctor'].browse(vals.get('person_doctor_id')).name,
                     'appointment_date': fields.Date.today(),
                 }
@@ -77,6 +88,7 @@ class Patient(models.Model):
         return super().write(vals)
 
     def hr_hosp_change_personal_doctor_multi_wizard_act_window(self):
-        action = self.env['ir.actions.act_window']._for_xml_id('hr_hospital.hr_hosp_change_personal_doctor_multi_wizard_act_window')
+        action = self.env['ir.actions.act_window']._for_xml_id(
+            'hr_hospital.hr_hosp_change_personal_doctor_multi_wizard_act_window')
         action['context'] = {'default_product_tmpl_ids': self.ids}
         return action

@@ -15,8 +15,9 @@ class MedTest(models.Model):
         readonly=True,
     )
 
-    name = fields.Char(
+    name = fields.Many2one(
         string='Пацієнт',
+        comodel_name='hr.hosp.patient',
         readonly=True,
     )
 
@@ -25,8 +26,9 @@ class MedTest(models.Model):
         readonly=True,
     )
 
-    medtest = fields.Char(
+    medtest_id = fields.Many2one(
         string='Обстеження',
+        comodel_name='hr.hosp.medtest_handbook',
         readonly=True,
     )
 
@@ -43,6 +45,10 @@ class MedTest(models.Model):
     material = fields.Binary(
         string='Матеріали',
         help='Завантажте додаткові матеріали',
+    )
+
+    patient_phone = fields.Char(
+        related='name.phone',
     )
 
     active = fields.Boolean(

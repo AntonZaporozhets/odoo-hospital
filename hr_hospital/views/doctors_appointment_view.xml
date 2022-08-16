@@ -8,8 +8,72 @@
                 <field name="reception_datetime"/>
                 <field name="name" widget="many2one_tags"/>
                 <field name="doctor_id" widget="many2one_tags"/>
-                <field name="doctor_specialization_ids"  widget="many2many_tags"/>
+                <field name="doctor_specialization_ids" widget="many2many_tags"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="hr_hosp_doctors_appointment_quick_form" model="ir.ui.view">
+       <field name="name">hr.hosp.doctors_appointment_quick_form ()</field>
+       <field name="model">hr.hosp.doctors_appointment</field>
+       <field name="arch" type="xml">
+           <form>
+               <group>
+                   <field name="reception_datetime"/>
+                   <field name="name"/>
+               </group>
+           </form>
+       </field>
+    </record>
+
+    <record id="hr_hosp_doctors_appointment_kanban" model="ir.ui.view">
+        <field name="name">hr.hosp.doctors_appointment.kanban ()</field>
+        <field name="model">hr.hosp.doctors_appointment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="doctor_id" group_create="false" on_create="quick_create"
+                    quick_create_view="hr_hospital.hr_hosp_doctors_appointment_quick_form" sample="1">
+                <field name="reception_datetime"/>
+                <field name="name" widget="many2one_tags"/>
+                <field name="doctor_id" widget="many2one_tags"/>
+                <field name="doctor_specialization_ids" widget="many2many_tags"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <h5>
+                                    <field name="name" widget="many2one_tags"/>
+                                </h5>
+                                <div class="o_kanban_tags_section"/>
+                                <ul>
+                                    <li>
+                                        <h6 style="color:blue;"><field name="reception_datetime"/></h6>
+                                    </li>
+                                    <li>
+                                        <field name="doctor_id" widget="many2one_tags"/>
+                                    </li>
+                                    <li>
+                                        <field name="doctor_specialization_ids" widget="many2many_tags"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="hr_hosp_doctors_appointment_calendar" model="ir.ui.view">
+        <field name="name">hr.hosp.doctors_appointment.calendar ()</field>
+        <field name="model">hr.hosp.doctors_appointment</field>
+        <field eval="2" name="priority"/>
+        <field name="arch" type="xml">
+            <calendar date_start="reception_datetime"
+                      string="Booking" mode="day" quick_add="False" color="name" event_open_popup="True">
+                <field name="name" widget="many2one_tags"/>
+                <field name="doctor_id" widget="many2one_tags" filters="1"/>
+                <field name="doctor_specialization_ids" widget="many2many_tags"/>
+            </calendar>
         </field>
     </record>
 
@@ -34,7 +98,7 @@
         <field name="name">Запис до лікаря</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hosp.doctors_appointment</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,calendar,form</field>
     </record>
 
     <menuitem id="hr_hosp_doctors_appointment_menu"

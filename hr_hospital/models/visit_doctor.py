@@ -108,6 +108,14 @@ class VisitDoctor(models.Model):
         help='Введіть коментар ментора',
     )
 
+    patient_card_id = fields.Many2one(
+        related='patient_id.name',
+    )
+
+    active = fields.Boolean(
+        default=True,
+    )
+
     @api.onchange('diagnosis_id')
     def _onchange_diagnosis_id(self):
         self.medtest_ids = self.diagnosis_id.medtest_protocol_ids
@@ -128,6 +136,7 @@ class VisitDoctor(models.Model):
     @api.depends('reception_datetime', 'doctor_id', 'patient_id', 'diagnosis_id', 'disease_id', 'complaint', 'anamnesis', 'external_inspection', 'clarification_diagnosis')
     def create(self, vals):
         rec = super().create(vals)
+        rec.patient_id.active = False
         if not vals.get('initial_visit_id'):
             values = {
                 'name': '%s // %s // %s // %s // %s // %s // %s // %s' % (fields.Date.to_string(rec.reception_datetime),
@@ -138,7 +147,7 @@ class VisitDoctor(models.Model):
                                                               rec.complaint,
                                                               rec.anamnesis,
                                                               rec.external_inspection),
-                'patient': rec.patient_id.name.name,
+                'patient_id': rec.patient_id.name.id,
                 'doctor': rec.doctor_id.name,
                 'diagnosis': rec.diagnosis_id.name,
                 'disease': rec.disease_id.id,
@@ -158,9 +167,9 @@ class VisitDoctor(models.Model):
         for elem in rec.medtest_ids:
             values = {
                 'issue_date': fields.Date.to_date(rec.reception_datetime),
-                'name': rec.patient_id.name.name,
+                'name': self.env['hr.hosp.patient'].search([('name', '=', rec.patient_id.name.name)]).id,
                 'doctor': rec.doctor_id.name,
-                'medtest': elem.name,
+                'medtest_id': elem.id,
             }
             self.env['hr.hosp.medtest'].create(values)
         return rec

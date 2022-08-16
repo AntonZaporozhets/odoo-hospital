@@ -10,8 +10,9 @@ class PersonalDoctorHistory(models.Model):
     _description = 'Personal doctor history'
     _order = "name"
 
-    name = fields.Char(
+    name = fields.Many2one(
         string='Пацієнт',
+        comodel_name='hr.hosp.patient',
     )
 
     doctor = fields.Char(
