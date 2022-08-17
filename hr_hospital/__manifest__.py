@@ -1,6 +1,6 @@
 {
     'name': 'Hospital',
-    'version': '15.0.1.0.0',
+    'version': '15.0.3.0.0',
     'summary': '',
     'category': 'Customizations',
     'author': 'Anton Zaporozhets',
@@ -25,6 +25,7 @@
         'wizard/change_personal_doctor_multi_wizard_view.xml',
         'wizard/disease_report_wizard_view.xml',
         'reports/report_disease.xml',
+        'reports/report_doctor.xml',
         'reports/report.xml',
     ],
     'demo': [

@@ -35,11 +35,24 @@
                 <field name="email"/>
                 <field name="sex"/>
                 <field name="specialization_ids" widget="many2many_tags"/>
+                <field name="patient_ids" widget="many2many_tags"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
-                            <div  class="o_kanban_image">
-                                <img alt="Intern image" t-att-src="kanban_image('hr.hosp.doctor', 'photo', record.id.raw_value)"/>
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-ellipsis-v" aria-hidden="true"/>
+                                </a>
+                                <div class="o_kanban_card_manage_setting row mt16">
+                                    <div class="dropdown-menu" role="menu">
+                                        <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Редагувати</a>
+                                        <a role="menuitem" type="delete" class="dropdown-item">Видалити</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_image">
+                                <img alt="Doctor image"
+                                     t-att-src="kanban_image('hr.hosp.doctor', 'photo', record.id.raw_value)"/>
                             </div>
                             <div class="oe_kanban_details">
                                 <h5>
@@ -61,8 +74,28 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button class="btn btn-secondary" type="action" style="float: right; background-color: #E2D7C7;"
-                                    name="%(hr_hosp_doctors_appointment_for_doctor_act_window)d">Запис на прийом</button>
+                            <div class="container o_kanban_card_content">
+                                <div class="row" style="padding-top: 10px;">
+                                    <div class="o_dropdown_kanban_dropdown">
+                                        <a class="dropdown-toggle btn" data-toggle="dropdown" href="#"
+                                           style="background-color: #CDDCFF;">Пацієнти
+                                            <span class="fa fa-ellipsis-v" aria-hidden="true"/>
+                                        </a>
+                                        <div class="o_kanban_card_manage_setting row mt16">
+                                            <div class="dropdown-menu" role="menu" style="padding-left: 10px;">
+                                                <field name="patient_ids" widget="many2many_tags"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-8 o_kanban_primary_right">
+                                        <button class="btn btn-secondary" type="action"
+                                                style="float: right; background-color: #E2D7C7;"
+                                                name="%(hr_hosp_doctors_appointment_for_doctor_act_window)d">
+                                                Запис на прийом
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </t>
                 </templates>

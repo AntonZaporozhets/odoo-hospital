@@ -9,4 +9,14 @@
         <field name="binding_model_id" ref="model_hr_hosp_disease_report_wizard"/>
         <field name="binding_type">report</field>
     </record>
+
+    <record id="action_report_doctor" model="ir.actions.report">
+        <field name="name">Звіт лікаря</field>
+        <field name="model">hr.hosp.doctor</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_hospital.report_doctor</field>
+        <field name="report_file">hr_hospital.report_doctor</field>
+        <field name="binding_model_id" ref="model_hr_hosp_doctor"/>
+        <field name="binding_type">report</field>
+    </record>
 </odoo>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_doctor">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <br/>
+                        <div class="oe_structure"/>
+                        <div class="text_center">
+                            <h2 style="text-align:center;">Звіт лікаря</h2>
+                            <br/>
+                            <h4 style="padding-left: 55%;">Лікар:
+                                <span t-field="o.name"/>
+                            </h4>
+                            <h5 style="padding-left: 55%;">Спеціалізація:
+                                <span t-field="o.specialization_ids"/>
+                            </h5>
+                            <br/>
+                            <br/>
+                            <h4 style="text-align:center;">Прийом пацієнтів</h4>
+                            <br/>
+                            <table style="width:1039px">
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align:center; width:94px">
+                                            <span style="font-size:14px">
+                                                <strong>Дата</strong>
+                                            </span>
+                                        </th>
+                                        <th style="text-align:center; width:252px">
+                                            <span style="font-size:14px">
+                                                <strong>Пацієнт</strong>
+                                            </span>
+                                        </th>
+                                        <th style="text-align:center; width:445px">
+                                            <span style="font-size:14px">
+                                                <strong>Хвороба</strong>
+                                            </span>
+                                        </th>
+                                        <th style="text-align:center; width:217px">
+                                            <span style="font-size:14px">
+                                                <strong>Діагноз</strong>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                    <t t-foreach="o.env['hr.hosp.visit_doctor'].search([('doctor_id', '=', o.name)])"
+                                       t-as="record">
+                                        <tr>
+                                            <td style="text-align:center; width:94px">
+                                                <span style="font-size:14px" t-field="record.reception_datetime"
+                                                      t-options='{"format": "dd.MM.yyyy"}'/>
+                                            </td>
+                                            <td style="width:252px">
+                                                <span style="font-size:14px" t-field="record.patient_id"/>
+                                            </td>
+                                            <td style="width:445px">
+                                                <span style="font-size:14px" t-field="record.disease_id"/>
+                                            </td>
+                                            <td style="width:217px">
+                                                <span style="font-size:14px" t-field="record.diagnosis_id"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <t t-if="len(o.env['hr.hosp.visit_doctor'].search([('doctor_id.mentor_id', '=', o.name)])) > 0">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <h4 style="text-align:center;">Консультування інтернів</h4>
+                                <br/>
+                                <table style="width:1039px">
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align:center; width:94px">
+                                                <span style="font-size:14px">
+                                                    <strong>Дата</strong>
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center; width:252px">
+                                                <span style="font-size:14px">
+                                                    <strong>Інтерн</strong>
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center; width:662px">
+                                                <span style="font-size:14px">
+                                                    <strong>Коментар ментора:
+                                                        <span t-field="o.name"/>
+                                                    </strong>
+                                                </span>
+                                            </th>
+                                        </tr>
+                                        <t t-foreach="o.env['hr.hosp.visit_doctor'].search([('doctor_id.mentor_id', '=', o.name)])"
+                                           t-as="record">
+                                            <tr>
+                                                <td style="text-align:center; width:94px">
+                                                    <span style="font-size:14px" t-field="record.reception_datetime"
+                                                          t-options='{"format": "dd.MM.yyyy"}'/>
+                                                </td>
+                                                <td style="width:252px">
+                                                    <span style="font-size:14px" t-field="record.doctor_id"/>
+                                                </td>
+                                                <td style="width:662px">
+                                                    <span style="font-size:14px" t-field="record.mentor_comment"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-if="len(o.env['hr.hosp.patient'].search([('person_doctor_id', '=', o.name)])) > 0">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <h4 style="text-align:center;">Інформація про "сімейних" пацієнтів</h4>
+                                <br/>
+                                <table style="margin-left:auto;margin-right:auto;width:788px">
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align:center; width:252px">
+                                                <span style="font-size:14px">
+                                                    <strong>Пацієнт</strong>
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center; width:134px">
+                                                <span style="font-size:14px">
+                                                    <strong>Дата народження</strong>
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center; width:150px">
+                                                <span style="font-size:14px">
+                                                    <strong>Телефон</strong>
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center; width:252px">
+                                                <span style="font-size:14px">
+                                                    <strong>Контактна особа</strong>
+                                                </span>
+                                            </th>
+                                        </tr>
+                                        <t t-foreach="o.env['hr.hosp.patient'].search([('person_doctor_id', '=', o.name)])" t-as="record">
+                                            <tr t-attf-style="background-color:
+                                                    {{'#D9FFCD' if len(o.env['hr.hosp.diagnosis_history'].search([('patient_id', '=', record.name)])) == 0
+                                                    else '#FFF0BC' if len(o.env['hr.hosp.diagnosis_history'].search([('patient_id', '=', record.name)])) == 1
+                                                    else '#FFCDCD'}}">
+                                                <td style="width:252px">
+                                                    <span style="font-size:14px" t-field="record.name"/>
+                                                </td>
+                                                <td style="width:134px">
+                                                    <span style="font-size:14px" t-field="record.birthday"/>
+                                                </td>
+                                                <td style="width:150px">
+                                                    <span style="font-size:14px" t-field="record.phone"/>
+                                                </td>
+                                                <td style="width:252px">
+                                                    <span style="font-size:14px"
+                                                          t-field="record.contact_person_id"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <div style="border-top: 1px solid #CCCCCC; color:#6D6D6D;">
+                            <div style="padding-top:10px;"><span t-esc="res_company.city"/></div>
+                            <div><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/></div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

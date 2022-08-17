@@ -79,6 +79,11 @@ class Doctor(models.Model):
         inverse_name='mentor_id',
     )
 
+    patient_ids = fields.One2many(
+        comodel_name='hr.hosp.patient',
+        inverse_name='person_doctor_id',
+    )
+
     active = fields.Boolean(
         default=True,
     )
